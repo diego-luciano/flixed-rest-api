@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Providers {
+  id            String          @id
+  name          String
+  url           String
+  ProviderPlans ProviderPlans[]
+}
+
+model ProviderPlans {
+  id                   Int                    @id @default(autoincrement())
+  provider             Providers              @relation(fields: [provider_id], references: [id])
+  provider_id          String
+  name                 String
+  description          String
+  ProviderPlanPrice    ProviderPlanPrice[]
+  ProviderPlanChannels ProviderPlanChannels[]
+}
+
+model ProviderPlanPrice {
+  id               Int           @id @default(autoincrement())
+  provider_plan    ProviderPlans @relation(fields: [provider_plan_id], references: [id])
+  provider_plan_id Int
+  price            Float
+  cadence          String
+  currency         String
+}
+
+model ProviderPlanChannels {
+  id               Int           @id @default(autoincrement())
+  provider_plan    ProviderPlans @relation(fields: [provider_plan_id], references: [id])
+  provider_plan_id Int
+  channel          Channels      @relation(fields: [channel_id], references: [id])
+  channel_id       Int
+}
+
+model Channels {
+  id                   Int                    @id @default(autoincrement())
+  call_sign            String
+  name                 String
+  type                 String
+  ProviderPlanChannels ProviderPlanChannels[]
+  EventsChannel        EventsChannel[]
+}
+
+model Events {
+  id             Int             @id @default(autoincrement())
+  name           String
+  description    String
+  unix_timestamp BigInt
+  type           String
+  EventsChannel  EventsChannel[]
+}
+
+model EventsChannel {
+  id         Int      @id @default(autoincrement())
+  event      Events   @relation(fields: [event_id], references: [id])
+  event_id   Int
+  channel    Channels @relation(fields: [channel_id], references: [id])
+  channel_id Int
+}
