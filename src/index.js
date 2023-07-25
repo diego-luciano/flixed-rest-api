@@ -15,6 +15,8 @@ module.exports = function () {
     swaggerUI.setup(swaggerJSDoc(swaggerConfig), { explorer: true })
   );
 
+  app.get('/', (req, res) => res.redirect('/api/docs'));
+
   app.use("/api/", router.providers);
 
   app.listen(port, () => {
