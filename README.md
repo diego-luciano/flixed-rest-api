@@ -7,7 +7,7 @@
  - run `npm run dev` to start the server.
 
 **Features** 
- - **Swagger:** Adds documentations to the and a playground to test the APIs.
+ - **Swagger:** Adds documentation to the and a playground to test the APIs.
  - **Prisma:** Handles the database tables providing as an ORM, providing type-safety and a playground where you can test your database tables.
  
 **Swagger**: Head to `http://localhost:3030/api/docs/` to see the API documentation.
